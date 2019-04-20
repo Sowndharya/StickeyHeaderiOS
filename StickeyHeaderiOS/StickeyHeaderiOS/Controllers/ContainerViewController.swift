@@ -316,24 +316,28 @@ extension ContainerViewController: InnerTableViewScrollDelegate {
        
         headerViewHeightConstraint.constant -= scrollDistance
         
-        /* Don't restrict the scroll.
+        /* Don't restrict the downward scroll.
  
-        if(headerViewHeightConstraint.constant < topViewFinalHeight) {
-            self.headerViewHeightConstraint.constant = topViewFinalHeight
-        }
+        if headerViewHeightConstraint.constant > topViewInitialHeight {
 
-        if(headerViewHeightConstraint.constant > topViewInitialHeight) {
-            self.headerViewHeightConstraint.constant = topViewInitialHeight
+            headerViewHeightConstraint.constant = topViewInitialHeight
         }
- 
+         
         */
+        
+        if headerViewHeightConstraint.constant < topViewFinalHeight {
+            
+            headerViewHeightConstraint.constant = topViewFinalHeight
+        }
     }
     
     func innerTableViewScrollEnded(withScrollDirection scrollDirection: DragDirection) {
         
         let topViewHeight = headerViewHeightConstraint.constant
         
-        /* Don't restrict the scroll.
+        /*
+         *  Scroll is not restricted.
+         *  So this check might cause the view to get stuck in the header height is greater than initial height.
  
         if topViewHeight >= topViewInitialHeight || topViewHeight <= topViewFinalHeight { return }
          
