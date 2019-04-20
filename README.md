@@ -1,7 +1,7 @@
 # Sticky Header iOS
 
 This project is an attempt to mimic the sticky header effect of Twitter's profile page.
-While there are many examples on how to achieve the blur effect and the header scroll, it was difficult to find one single project that implements both the sticking header and the tabbed layout.
+While there are many examples on how to achieve the blur effect and the header scroll, it was difficult to find one single solution that implements both the sticking header and the tabbed layout.
 
 Here is a brief of the problem and the solution.
 
