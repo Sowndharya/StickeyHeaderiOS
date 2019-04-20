@@ -70,7 +70,7 @@ class ContainerViewController: UIViewController {
         var width = label.intrinsicContentSize.width
         width = width + 40
         
-        selectedTabView.frame = CGRect(x: 0 , y: 55, width: width, height: 5)
+        selectedTabView.frame = CGRect(x: 20, y: 55, width: width, height: 5)
         selectedTabView.backgroundColor = UIColor(red:0.65, green:0.58, blue:0.94, alpha:1)
         tabBarCollectionView.addSubview(selectedTabView)
     }
@@ -90,7 +90,7 @@ class ContainerViewController: UIViewController {
             
             let tabContentVC = ContentViewController2()
             tabContentVC.innerTableViewScrollDelegate = self
-            tabContentVC.numberOfCells = (subTabCount + 1) * 10
+            tabContentVC.numberOfCells = 30 // (subTabCount + 1) * 10
             
             let displayName = "TAB \(subTabCount + 1)"
             let page = Page(with: displayName, _vc: tabContentVC)
@@ -138,6 +138,11 @@ class ContainerViewController: UIViewController {
         tabBarCollectionView.addGestureRecognizer(collViewPanGesture)
          
         */
+    }
+    
+    @IBAction func onClickCloseButton(_ sender: UIButton) {
+        
+        dismiss(animated: true, completion: nil)
     }
     
     var dragInitialY: CGFloat = 0
@@ -247,6 +252,11 @@ extension ContainerViewController: UICollectionViewDelegateFlowLayout {
         scrollSelectedTabView(toIndexPath: indexPath)
         
         setBottomPagingView(toPageWithAtIndex: indexPath.item, andNavigationDirection: direction)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     }
 }
 

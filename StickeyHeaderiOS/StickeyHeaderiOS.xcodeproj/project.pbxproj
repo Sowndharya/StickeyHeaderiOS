@@ -15,8 +15,14 @@
 		BB6D8B752222B560009396D4 /* TabBarCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6D8B712222B55F009396D4 /* TabBarCollectionViewCell.xib */; };
 		BB6D8B762222B560009396D4 /* TabBarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6D8B722222B560009396D4 /* TabBarCollectionViewCell.swift */; };
 		BB6D8B772222B560009396D4 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6D8B732222B560009396D4 /* ProfileTableViewCell.xib */; };
+		BBA3B61B226B86C30086AED6 /* StickyHeaderViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA3B619226B86C30086AED6 /* StickyHeaderViewController1.swift */; };
+		BBA3B61C226B86C30086AED6 /* StickyHeaderViewController1.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBA3B61A226B86C30086AED6 /* StickyHeaderViewController1.xib */; };
 		BBB62CEF226B153000FD1E90 /* ContentViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB62CED226B153000FD1E90 /* ContentViewController2.swift */; };
 		BBB62CF0226B153000FD1E90 /* ContentViewController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBB62CEE226B153000FD1E90 /* ContentViewController2.xib */; };
+		BBB62CF3226B7CC700FD1E90 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB62CF2226B7CC700FD1E90 /* InitialViewController.swift */; };
+		BBB62CF5226B7D0100FD1E90 /* ContainerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBB62CF4226B7D0100FD1E90 /* ContainerViewController.xib */; };
+		BBB62CF8226B7D9F00FD1E90 /* InitialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB62CF6226B7D9F00FD1E90 /* InitialTableViewCell.swift */; };
+		BBB62CF9226B7D9F00FD1E90 /* InitialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBB62CF7226B7D9F00FD1E90 /* InitialTableViewCell.xib */; };
 		BBBE21E42262478100BE2BB5 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBE21E22262478100BE2BB5 /* ContainerViewController.swift */; };
 		BBBE21E8226247FA00BE2BB5 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBE21E7226247FA00BE2BB5 /* Page.swift */; };
 		BBBE21EB2262481E00BE2BB5 /* ContentViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBE21E92262481E00BE2BB5 /* ContentViewController1.swift */; };
@@ -34,8 +40,14 @@
 		BB6D8B712222B55F009396D4 /* TabBarCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabBarCollectionViewCell.xib; sourceTree = "<group>"; };
 		BB6D8B722222B560009396D4 /* TabBarCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarCollectionViewCell.swift; sourceTree = "<group>"; };
 		BB6D8B732222B560009396D4 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
+		BBA3B619226B86C30086AED6 /* StickyHeaderViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeaderViewController1.swift; sourceTree = "<group>"; };
+		BBA3B61A226B86C30086AED6 /* StickyHeaderViewController1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StickyHeaderViewController1.xib; sourceTree = "<group>"; };
 		BBB62CED226B153000FD1E90 /* ContentViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController2.swift; sourceTree = "<group>"; };
 		BBB62CEE226B153000FD1E90 /* ContentViewController2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContentViewController2.xib; sourceTree = "<group>"; };
+		BBB62CF2226B7CC700FD1E90 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		BBB62CF4226B7D0100FD1E90 /* ContainerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContainerViewController.xib; sourceTree = "<group>"; };
+		BBB62CF6226B7D9F00FD1E90 /* InitialTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialTableViewCell.swift; sourceTree = "<group>"; };
+		BBB62CF7226B7D9F00FD1E90 /* InitialTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InitialTableViewCell.xib; sourceTree = "<group>"; };
 		BBBE21E22262478100BE2BB5 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		BBBE21E7226247FA00BE2BB5 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		BBBE21E92262481E00BE2BB5 /* ContentViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController1.swift; sourceTree = "<group>"; };
@@ -103,7 +115,11 @@
 		BB6D8B592222B4EB009396D4 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				BBB62CF2226B7CC700FD1E90 /* InitialViewController.swift */,
+				BBA3B619226B86C30086AED6 /* StickyHeaderViewController1.swift */,
+				BBA3B61A226B86C30086AED6 /* StickyHeaderViewController1.xib */,
 				BBBE21E22262478100BE2BB5 /* ContainerViewController.swift */,
+				BBB62CF4226B7D0100FD1E90 /* ContainerViewController.xib */,
 				BBBE21E92262481E00BE2BB5 /* ContentViewController1.swift */,
 				BBBE21EA2262481E00BE2BB5 /* ContentViewController1.xib */,
 				BBB62CED226B153000FD1E90 /* ContentViewController2.swift */,
@@ -119,6 +135,8 @@
 				BB6D8B712222B55F009396D4 /* TabBarCollectionViewCell.xib */,
 				BB6D8B702222B55F009396D4 /* ProfileTableViewCell.swift */,
 				BB6D8B732222B560009396D4 /* ProfileTableViewCell.xib */,
+				BBB62CF6226B7D9F00FD1E90 /* InitialTableViewCell.swift */,
+				BBB62CF7226B7D9F00FD1E90 /* InitialTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -199,10 +217,13 @@
 			files = (
 				BB6D8B692222B549009396D4 /* Main.storyboard in Resources */,
 				BBBE21EC2262481E00BE2BB5 /* ContentViewController1.xib in Resources */,
+				BBA3B61C226B86C30086AED6 /* StickyHeaderViewController1.xib in Resources */,
 				BB6D8B502222B4D3009396D4 /* LaunchScreen.storyboard in Resources */,
 				BB6D8B752222B560009396D4 /* TabBarCollectionViewCell.xib in Resources */,
 				BB6D8B4D2222B4D3009396D4 /* Assets.xcassets in Resources */,
 				BBB62CF0226B153000FD1E90 /* ContentViewController2.xib in Resources */,
+				BBB62CF9226B7D9F00FD1E90 /* InitialTableViewCell.xib in Resources */,
+				BBB62CF5226B7D0100FD1E90 /* ContainerViewController.xib in Resources */,
 				BB6D8B772222B560009396D4 /* ProfileTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,12 +236,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB6D8B762222B560009396D4 /* TabBarCollectionViewCell.swift in Sources */,
+				BBB62CF8226B7D9F00FD1E90 /* InitialTableViewCell.swift in Sources */,
 				BBBE21EB2262481E00BE2BB5 /* ContentViewController1.swift in Sources */,
 				BBB62CEF226B153000FD1E90 /* ContentViewController2.swift in Sources */,
+				BBA3B61B226B86C30086AED6 /* StickyHeaderViewController1.swift in Sources */,
 				BBBE21E8226247FA00BE2BB5 /* Page.swift in Sources */,
 				BBBE21E42262478100BE2BB5 /* ContainerViewController.swift in Sources */,
 				BB6D8B742222B560009396D4 /* ProfileTableViewCell.swift in Sources */,
 				BB6D8B462222B4CF009396D4 /* AppDelegate.swift in Sources */,
+				BBB62CF3226B7CC700FD1E90 /* InitialViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

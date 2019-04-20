@@ -57,6 +57,7 @@ class ContentViewController1: UIViewController {
                            forCellReuseIdentifier: ProfileTableViewCellID)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.estimatedRowHeight = 44
     }
 }
 
