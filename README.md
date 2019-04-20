@@ -15,3 +15,9 @@ Here is a brief of the problem and the solution.
       2. A UICollectionView - for switching between tabs.
       3. A UIPageViewController - Multiple UITableViews as child view controllers.
 2. In viewDidScroll of the child view controller, take the content offset and delegate it to the main view controller.
+
+# Features Available:
+1. Expand/Collapse header view based on scroll.
+2. Expand/Collapse header view based on pan gesture on the header view - Remember that the header here is a gimmick and not a default table view header.
+3. Collection view with selection indicator.
+4. Swipe through the pages of child view controller - Achieved using UIPageViewController.
