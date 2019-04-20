@@ -1,51 +1,36 @@
 //
-//  TabContainerViewController.swift
-//  ProfilePageSampleProject
+//  ContainerViewController.swift
+//  StickeyHeaderiOS
 //
-//  Created by Sowndharya M on 24/02/19.
-//  Copyright © 2019 Sowndharya M. All rights reserved.
+//  Created by Sowndharya M on 06/01/18.
+//  Copyright © 2018 Sowndharya M. All rights reserved.
 //
 
 import UIKit
 
-extension TabContainerViewController {
-    
-    struct Page {
-        
-        var name = ""
-        var vc = TabContentViewController()
-        
-        init(with _name: String, _vc: TabContentViewController) {
-            
-            name = _name
-            vc = _vc
-        }
-    }
-    
-    struct PageCollection {
-        
-        var pages = [Page]()
-        var selectedPageIndex = 0 //The first page is selected by default in the beginning
-    }
-}
+var topViewInitialHeight : CGFloat = 200
 
-class TabContainerViewController: UIViewController {
+let topViewFinalHeight : CGFloat = UIApplication.shared.statusBarFrame.size.height + 44 //navigation hieght
+
+let topViewHeightConstraintRange = topViewFinalHeight..<topViewInitialHeight
+
+class ContainerViewController: UIViewController {
     
-    //MARK:- Change this value for number of tabs
+    //MARK:- Change this value for number of tabs.
     
-    let subTabsCount = 4
+    let tabsCount = 5; #warning ("< 1 causes crash")
     
     //MARK:- Outlets
     
-    @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tabBarCollectionView: UICollectionView!
     @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var topViewHeightConstraint: NSLayoutConstraint!
+    //MARK:- Programatic UI Properties
     
-    var tabsPageViewController = UIPageViewController()
-    
-    var selectionBar = UIView()
+    var pageViewController = UIPageViewController()
+    var selectedTabView = UIView()
     
     //MARK:- View Model
     
@@ -54,29 +39,30 @@ class TabContainerViewController: UIViewController {
     //MARK: View Life Cycle
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        
         setupCollectionView()
         setupPagingViewController()
         populateBottomView()
-        addPanGestureToTopViewAndCollectionVi()
+        addPanGestureToTopViewAndCollectionView()
     }
     
     //MARK: View Setup
     
     func setupCollectionView() {
         
-        tabBarCollectionView.backgroundColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:1)
-        
         let layout = tabBarCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        layout?.scrollDirection = .horizontal
         layout?.estimatedItemSize = CGSize(width: 100, height: 50)
         
         tabBarCollectionView.register(UINib(nibName: TabBarCollectionViewCellID, bundle: nil),
                                       forCellWithReuseIdentifier: TabBarCollectionViewCellID)
-        tabBarCollectionView.isScrollEnabled = true
         tabBarCollectionView.dataSource = self
         tabBarCollectionView.delegate = self
+        
+        setupSelectedTabView()
+    }
+    
+    func setupSelectedTabView() {
         
         let label = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: 10, height: 10))
         label.text = "TAB \(1)"
@@ -84,28 +70,28 @@ class TabContainerViewController: UIViewController {
         var width = label.intrinsicContentSize.width
         width = width + 40
         
-        selectionBar.frame = CGRect(x: 0 , y: 55, width: width, height: 5)
-        selectionBar.backgroundColor = UIColor(red:0.65, green:0.58, blue:0.94, alpha:1)
-        tabBarCollectionView.addSubview(selectionBar)
+        selectedTabView.frame = CGRect(x: 0 , y: 55, width: width, height: 5)
+        selectedTabView.backgroundColor = UIColor(red:0.65, green:0.58, blue:0.94, alpha:1)
+        tabBarCollectionView.addSubview(selectedTabView)
     }
     
     func setupPagingViewController() {
         
-        tabsPageViewController = UIPageViewController(transitionStyle: .scroll,
+        pageViewController = UIPageViewController(transitionStyle: .scroll,
                                                       navigationOrientation: .horizontal,
                                                       options: nil)
-        tabsPageViewController.dataSource = self
-        tabsPageViewController.delegate = self
+        pageViewController.dataSource = self
+        pageViewController.delegate = self
     }
     
     func populateBottomView() {
         
-        for subTabCount in 0..<subTabsCount {
-
-            let tabContentVC = TabContentViewController()
+        for subTabCount in 0..<tabsCount {
+            
+            let tabContentVC = ContentViewController2()
             tabContentVC.innerTableViewScrollDelegate = self
-            tabContentVC.numberOfCells = (subTabCount + 1) * 2
-
+            tabContentVC.numberOfCells = (subTabCount + 1) * 10
+            
             let displayName = "TAB \(subTabCount + 1)"
             let page = Page(with: displayName, _vc: tabContentVC)
             pageCollection.pages.append(page)
@@ -113,15 +99,15 @@ class TabContainerViewController: UIViewController {
         
         let initialPage = 0
         
-        tabsPageViewController.setViewControllers([pageCollection.pages[initialPage].vc],
+        pageViewController.setViewControllers([pageCollection.pages[initialPage].vc],
                                                   direction: .forward,
                                                   animated: true,
                                                   completion: nil)
         
         
-        addChild(tabsPageViewController)
-        tabsPageViewController.willMove(toParent: self)
-        bottomView.addSubview(tabsPageViewController.view)
+        addChild(pageViewController)
+        pageViewController.willMove(toParent: self)
+        bottomView.addSubview(pageViewController.view)
         
         pinPagingViewControllerToBottomView()
     }
@@ -129,25 +115,29 @@ class TabContainerViewController: UIViewController {
     func pinPagingViewControllerToBottomView() {
         
         bottomView.translatesAutoresizingMaskIntoConstraints = false
-        tabsPageViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
-        tabsPageViewController.view.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor).isActive = true
-        tabsPageViewController.view.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor).isActive = true
-        tabsPageViewController.view.topAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
-        tabsPageViewController.view.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor).isActive = true
+        pageViewController.view.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor).isActive = true
+        pageViewController.view.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor).isActive = true
+        pageViewController.view.topAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
+        pageViewController.view.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor).isActive = true
     }
-    
-    func addPanGestureToTopViewAndCollectionVi() {
+
+    func addPanGestureToTopViewAndCollectionView() {
         
         let topViewPanGesture = UIPanGestureRecognizer(target: self, action: #selector(topViewMoved))
         
-        topView.isUserInteractionEnabled = true
-        topView.addGestureRecognizer(topViewPanGesture)
+        headerView.isUserInteractionEnabled = true
+        headerView.addGestureRecognizer(topViewPanGesture)
         
+        /* Adding pan gesture to collection view is overriding the collection view scroll.
+         
         let collViewPanGesture = UIPanGestureRecognizer(target: self, action: #selector(topViewMoved))
         
         tabBarCollectionView.isUserInteractionEnabled = true
         tabBarCollectionView.addGestureRecognizer(collViewPanGesture)
+         
+        */
     }
     
     var dragInitialY: CGFloat = 0
@@ -158,29 +148,27 @@ class TabContainerViewController: UIViewController {
         
         var dragYDiff : CGFloat
         
-        if gesture.state == .began {
+        switch gesture.state {
+            
+        case .began:
             
             dragInitialY = gesture.location(in: self.view).y
             dragPreviousY = dragInitialY
-            return
             
-        } else if gesture.state == .changed {
+        case .changed:
             
             let dragCurrentY = gesture.location(in: self.view).y
-            
             dragYDiff = dragPreviousY - dragCurrentY
-            
             dragPreviousY = dragCurrentY
-            
             dragDirection = dragYDiff < 0 ? .Down : .Up
+            innerTableViewDidScroll(withDistance: dragYDiff)
             
-            innerTableViewScroll(with: dragYDiff)
-            
-            return
-            
-        } else if(gesture.state == .ended) {
+        case .ended:
             
             innerTableViewScrollEnded(withScrollDirection: dragDirection)
+            
+        default: return
+        
         }
     }
     
@@ -188,26 +176,26 @@ class TabContainerViewController: UIViewController {
     
     func setBottomPagingView(toPageWithAtIndex index: Int, andNavigationDirection navigationDirection: UIPageViewController.NavigationDirection) {
         
-        tabsPageViewController.setViewControllers([pageCollection.pages[index].vc],
+        pageViewController.setViewControllers([pageCollection.pages[index].vc],
                                                   direction: navigationDirection,
                                                   animated: true,
                                                   completion: nil)
     }
     
-    func scrollSectionBar(toIndexPath indexPath: IndexPath, shouldAnimate: Bool = true) {
+    func scrollSelectedTabView(toIndexPath indexPath: IndexPath, shouldAnimate: Bool = true) {
         
         UIView.animate(withDuration: 0.3) {
             
             if let cell = self.tabBarCollectionView.cellForItem(at: indexPath) {
                 
-                self.selectionBar.frame.size.width = cell.frame.width
-                self.selectionBar.frame.origin.x = cell.frame.origin.x
+                self.selectedTabView.frame.size.width = cell.frame.width
+                self.selectedTabView.frame.origin.x = cell.frame.origin.x
             }
         }
     }
 }
 
-extension TabContainerViewController: UICollectionViewDataSource {
+extension ContainerViewController: UICollectionViewDataSource {
     
     //MARK:- Collection View Data Source
     
@@ -228,7 +216,7 @@ extension TabContainerViewController: UICollectionViewDataSource {
     }
 }
 
-extension TabContainerViewController: UICollectionViewDelegateFlowLayout {
+extension ContainerViewController: UICollectionViewDelegateFlowLayout {
     
     //MARK:- Collection View Delegate
     
@@ -256,13 +244,13 @@ extension TabContainerViewController: UICollectionViewDelegateFlowLayout {
                                           at: .centeredHorizontally,
                                           animated: true)
         
-        scrollSectionBar(toIndexPath: indexPath)
+        scrollSelectedTabView(toIndexPath: indexPath)
         
         setBottomPagingView(toPageWithAtIndex: indexPath.item, andNavigationDirection: direction)
     }
 }
 
-extension TabContainerViewController: UIPageViewControllerDataSource {
+extension ContainerViewController: UIPageViewControllerDataSource {
     
     //MARK:- Delegate Method to give the next and previous View Controllers to the Page View Controller
     
@@ -295,7 +283,7 @@ extension TabContainerViewController: UIPageViewControllerDataSource {
     }
 }
 
-extension TabContainerViewController: UIPageViewControllerDelegate {
+extension ContainerViewController: UIPageViewControllerDelegate {
     
     //MARK:- Delegate Method to tell Inner View Controller movement inside Page View Controller
     //Capture it and change the selection bar position in collection View
@@ -310,41 +298,46 @@ extension TabContainerViewController: UIPageViewControllerDelegate {
         
         let indexPathAtCollectionView = IndexPath(item: currentVCIndex, section: 0)
         
-        scrollSectionBar(toIndexPath: indexPathAtCollectionView)
+        scrollSelectedTabView(toIndexPath: indexPathAtCollectionView)
         tabBarCollectionView.scrollToItem(at: indexPathAtCollectionView,
                                           at: .centeredHorizontally,
                                           animated: true)
     }
 }
 
-extension TabContainerViewController: InnerTableViewScrollDelegate {
+extension ContainerViewController: InnerTableViewScrollDelegate {
     
-    func getCurrentHeightConstraint() -> CGFloat {
+    var currentHeaderHeight: CGFloat {
         
-        return topViewHeightConstraint.constant
+        return headerViewHeightConstraint.constant
     }
     
-    func innerTableViewScroll(with height: CGFloat) {
+    func innerTableViewDidScroll(withDistance scrollDistance: CGFloat) {
+       
+        headerViewHeightConstraint.constant -= scrollDistance
         
-        topViewHeightConstraint.constant -= height
-        
-        if(topViewHeightConstraint.constant < topViewFinalHeight) {
-            self.topViewHeightConstraint.constant = topViewFinalHeight
+        /* Don't restrict the scroll.
+ 
+        if(headerViewHeightConstraint.constant < topViewFinalHeight) {
+            self.headerViewHeightConstraint.constant = topViewFinalHeight
         }
-        
-        if(topViewHeightConstraint.constant > topViewInitialHeight) {
-            self.topViewHeightConstraint.constant = topViewInitialHeight
+
+        if(headerViewHeightConstraint.constant > topViewInitialHeight) {
+            self.headerViewHeightConstraint.constant = topViewInitialHeight
         }
+ 
+        */
     }
     
     func innerTableViewScrollEnded(withScrollDirection scrollDirection: DragDirection) {
         
-        let topViewHeight = topViewHeightConstraint.constant
+        let topViewHeight = headerViewHeightConstraint.constant
         
-        if topViewHeight >= topViewInitialHeight || topViewHeight <= topViewFinalHeight {
-            
-            return
-        }
+        /* Don't restrict the scroll.
+ 
+        if topViewHeight >= topViewInitialHeight || topViewHeight <= topViewFinalHeight { return }
+         
+        */
         
         if topViewHeight <= topViewFinalHeight + 20 {
             
@@ -354,12 +347,9 @@ extension TabContainerViewController: InnerTableViewScrollDelegate {
             
             switch scrollDirection {
                 
-            case .Down:
-                scrollToInitialView()
-                break
-            case .Up:
-                scrollToFinalView()
-                break
+            case .Down: scrollToInitialView()
+            case .Up: scrollToFinalView()
+            
             }
             
         } else {
@@ -370,9 +360,20 @@ extension TabContainerViewController: InnerTableViewScrollDelegate {
     
     func scrollToInitialView() {
         
-        topViewHeightConstraint.constant = topViewInitialHeight
+        let topViewCurrentHeight = headerView.frame.height
         
-        UIView.animate(withDuration: 0.25, animations: {
+        let distanceToBeMoved = abs(topViewCurrentHeight - topViewInitialHeight)
+        
+        var time = distanceToBeMoved / 500
+        
+        if time < 0.25 {
+            
+            time = 0.25
+        }
+        
+        headerViewHeightConstraint.constant = topViewInitialHeight
+        
+        UIView.animate(withDuration: TimeInterval(time), animations: {
             
             self.view.layoutIfNeeded()
         })
@@ -380,12 +381,22 @@ extension TabContainerViewController: InnerTableViewScrollDelegate {
     
     func scrollToFinalView() {
         
-        topViewHeightConstraint.constant = topViewFinalHeight
+        let topViewCurrentHeight = headerView.frame.height
         
-        UIView.animate(withDuration: 0.25, animations: {
+        let distanceToBeMoved = abs(topViewCurrentHeight - topViewFinalHeight)
+        
+        var time = distanceToBeMoved / 500
+        
+        if time < 0.25 {
+            
+            time = 0.25
+        }
+        
+        headerViewHeightConstraint.constant = topViewFinalHeight
+        
+        UIView.animate(withDuration: TimeInterval(time), animations: {
             
             self.view.layoutIfNeeded()
         })
     }
 }
-

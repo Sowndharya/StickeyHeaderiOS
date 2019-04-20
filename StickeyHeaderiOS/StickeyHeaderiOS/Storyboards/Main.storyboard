@@ -10,19 +10,19 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tab Container View Controller-->
+        <!--Container View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="TabContainerViewController" customModule="StikceyHeaderiOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ContainerViewController" customModule="StickeyHeaderiOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fGf-DW-63O">
-                                <rect key="frame" x="0.0" y="20" width="375" height="300"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="200"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UserImageIcon" translatesAutoresizingMaskIntoConstraints="NO" id="ple-I5-kzQ">
-                                        <rect key="frame" x="112.5" y="75" width="150" height="150"/>
+                                        <rect key="frame" x="137.5" y="50" width="100" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="ple-I5-kzQ" secondAttribute="height" id="Hxq-ei-AqP"/>
                                         </constraints>
@@ -33,16 +33,16 @@
                                     <constraint firstItem="ple-I5-kzQ" firstAttribute="centerX" secondItem="fGf-DW-63O" secondAttribute="centerX" id="IK6-kd-xGj"/>
                                     <constraint firstItem="ple-I5-kzQ" firstAttribute="centerY" secondItem="fGf-DW-63O" secondAttribute="centerY" id="Nxq-5v-vaw"/>
                                     <constraint firstItem="ple-I5-kzQ" firstAttribute="height" secondItem="fGf-DW-63O" secondAttribute="height" multiplier="1:2" id="OCy-MQ-H6u"/>
-                                    <constraint firstAttribute="height" constant="300" id="ZLN-n2-9TY"/>
+                                    <constraint firstAttribute="height" constant="200" id="ZLN-n2-9TY"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tWu-4Y-QPt">
-                                <rect key="frame" x="0.0" y="320" width="375" height="60"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="0.0" y="220" width="375" height="60"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="rQ4-c3-NTt"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Nfg-EZ-Tg4">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Nfg-EZ-Tg4">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -51,7 +51,7 @@
                                 <cells/>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U8Z-Zc-dQc">
-                                <rect key="frame" x="0.0" y="380" width="375" height="287"/>
+                                <rect key="frame" x="0.0" y="280" width="375" height="387"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -71,9 +71,9 @@
                     </view>
                     <connections>
                         <outlet property="bottomView" destination="U8Z-Zc-dQc" id="GVV-hV-Ooe"/>
+                        <outlet property="headerView" destination="fGf-DW-63O" id="5l4-1G-lSk"/>
+                        <outlet property="headerViewHeightConstraint" destination="ZLN-n2-9TY" id="mf2-V8-mcl"/>
                         <outlet property="tabBarCollectionView" destination="tWu-4Y-QPt" id="Odj-7C-DI5"/>
-                        <outlet property="topView" destination="fGf-DW-63O" id="5l4-1G-lSk"/>
-                        <outlet property="topViewHeightConstraint" destination="ZLN-n2-9TY" id="mf2-V8-mcl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

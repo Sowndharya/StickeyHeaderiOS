@@ -1,6 +1,6 @@
 //
-//  ProfileTabViewController.swift
-//  ProfilePageSampleProject
+//  ContentViewController1.swift
+//  StickeyHeaderiOS
 //
 //  Created by Sowndharya M on 06/01/18.
 //  Copyright © 2018 Sowndharya M. All rights reserved.
@@ -14,21 +14,16 @@ enum DragDirection {
     case Down
 }
 
-var topViewInitialHeight : CGFloat = 300 // If self profile, then 234, This should be changed in viewDidLoad()
-
-let topViewFinalHeight : CGFloat = UIApplication.shared.statusBarFrame.size.height + 44 //navigation hieght
-
-var topViewHeightConstraintRange = topViewFinalHeight..<topViewInitialHeight
-
 protocol InnerTableViewScrollDelegate: class {
     
-    func getCurrentHeightConstraint() -> CGFloat
-    func innerTableViewScroll(with height: CGFloat)
+    var currentHeaderHeight: CGFloat { get }
+    
+    func innerTableViewDidScroll(withDistance scrollDistance: CGFloat)
     func innerTableViewScrollEnded(withScrollDirection scrollDirection: DragDirection)
 }
 
-class TabContentViewController: UIViewController {
-
+class ContentViewController1: UIViewController {
+    
     //MARK:- Outlets
     
     @IBOutlet weak var tableView: UITableView!
@@ -38,9 +33,10 @@ class TabContentViewController: UIViewController {
     weak var innerTableViewScrollDelegate: InnerTableViewScrollDelegate?
     
     //MARK:- Stored Properties for Scroll Delegate
+    
     private var dragDirection: DragDirection = .Up
     private var oldContentOffset = CGPoint.zero
-
+    
     //MARK:- Data Source
     
     var numberOfCells: Int = 0
@@ -64,9 +60,10 @@ class TabContentViewController: UIViewController {
     }
 }
 
+
 //MARK:- Table View Data Source
 
-extension TabContentViewController: UITableViewDataSource {
+extension ContentViewController1: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -87,36 +84,45 @@ extension TabContentViewController: UITableViewDataSource {
 
 //MARK:- Scroll View Actions
 
-extension TabContentViewController: UITableViewDelegate {
+extension ContentViewController1: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let delta = scrollView.contentOffset.y - oldContentOffset.y
         
-        var topViewCurrentHeightConst = self.innerTableViewScrollDelegate?.getCurrentHeightConstraint()
+        let topViewCurrentHeightConst = innerTableViewScrollDelegate?.currentHeaderHeight
         
         if let topViewUnwrappedHeight = topViewCurrentHeightConst {
             
-            if delta > 0 // The current offset should be greater than the previous offset indicating an upward scroll
-                && topViewUnwrappedHeight > topViewHeightConstraintRange.lowerBound // The top view shouldn't have reached it's min height
-                && scrollView.contentOffset.y > 0 { //There are cases when u can keep on draggin the table view down even after the top most cell has been reached.. Make sure you are not dragging the view up once we do such a drag and scroll upwards
+            /**
+             *  Re-size (Shrink) the top view only when the conditions meet:-
+             *  1. The current offset of the table view should be greater than the previous offset indicating an upward scroll.
+             *  2. The top view's height should be within its minimum height.
+             *  3. There are cases when you can keep on draggin the table view up even after the bottom most cell has been reached.. Make sure you are not dragging the top view up once we do such a drag and scroll upwards.
+             */
+            
+            if delta > 0
+                && topViewUnwrappedHeight > topViewHeightConstraintRange.lowerBound
+                && scrollView.contentOffset.y > 0 {
                 
                 dragDirection = .Up
-                innerTableViewScrollDelegate?.innerTableViewScroll(with: delta)
+                innerTableViewScrollDelegate?.innerTableViewDidScroll(withDistance: delta)
                 scrollView.contentOffset.y -= delta
             }
-        }
-        
-        topViewCurrentHeightConst = self.innerTableViewScrollDelegate?.getCurrentHeightConstraint()
-        
-        if let topViewUnwrappedHeight = topViewCurrentHeightConst {
             
-            if delta < 0 // The current offset should be greater than the previous offset indicating an upward scroll
-                && topViewUnwrappedHeight < topViewHeightConstraintRange.upperBound // The top view shouldn't have reached it's min height
-                && scrollView.contentOffset.y < 0 { //There are cases when u can keep on draggin the table view down even after the top most cell has been reached.. Make sure you are not dragging the view up once we do such a drag and scroll upwards
+            /**
+             *  Re-size (Expand) the top view only when the conditions meet:-
+             *  1. The current offset of the table view should be lesser than the previous offset indicating an downward scroll.
+             *  2. The top view's height should be within its maximum height.
+             *  3. There are cases when you can keep on draggin the table view up even after the top most cell has been reached.. Make sure you are not dragging the top view up once we do such a drag and scroll upwards.
+             */
+            
+            if delta < 0
+                // && topViewUnwrappedHeight < topViewHeightConstraintRange.upperBound
+                && scrollView.contentOffset.y < 0 {
                 
                 dragDirection = .Down
-                innerTableViewScrollDelegate?.innerTableViewScroll(with: delta)
+                innerTableViewScrollDelegate?.innerTableViewDidScroll(withDistance: delta)
                 scrollView.contentOffset.y -= delta
             }
         }

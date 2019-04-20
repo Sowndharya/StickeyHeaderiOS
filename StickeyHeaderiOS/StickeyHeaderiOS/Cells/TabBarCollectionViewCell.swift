@@ -15,9 +15,13 @@ class TabBarCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var tabNameLabel: UILabel!
     
     override func awakeFromNib() {
+        
         super.awakeFromNib()
         
-//        self.contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        /*
+         *  To avoid compression of labels, the below code must be present.
+         */
+        
+        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
-
 }
