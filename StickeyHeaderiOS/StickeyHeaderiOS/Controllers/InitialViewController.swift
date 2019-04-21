@@ -19,8 +19,8 @@ class InitialViewController: UITableViewController {
     var approaches = [Approach]()
     
     let titles = ["Approach 1", "Approach 2"]
-    let subTitles = ["Adjust header view height based on table content offset and reset the content inset",
-                     "Adjust header view height based on table content offset and reset the content offset - with multiple table views"]
+    let subTitles = ["Adjust header view height based on table content offset and reset the content inset. - Does not work with mutliplt table views.",
+                     "Adjust header view height based on table content offset and reset the content offset - with multiple table views."]
     
     override func viewDidLoad() {
         
@@ -79,7 +79,7 @@ extension InitialViewController {
         
         } else if indexPath.row == 1 {
             
-            let vc = ContainerViewController()
+            let vc = StickyHeaderViewController2()
             present(vc, animated: true, completion: nil)
         }
     }

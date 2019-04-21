@@ -14,7 +14,7 @@ let topViewFinalHeight : CGFloat = UIApplication.shared.statusBarFrame.size.heig
 
 let topViewHeightConstraintRange = topViewFinalHeight..<topViewInitialHeight
 
-class ContainerViewController: UIViewController {
+class StickyHeaderViewController2: UIViewController {
     
     //MARK:- Change this value for number of tabs.
     
@@ -200,7 +200,7 @@ class ContainerViewController: UIViewController {
     }
 }
 
-extension ContainerViewController: UICollectionViewDataSource {
+extension StickyHeaderViewController2: UICollectionViewDataSource {
     
     //MARK:- Collection View Data Source
     
@@ -221,7 +221,7 @@ extension ContainerViewController: UICollectionViewDataSource {
     }
 }
 
-extension ContainerViewController: UICollectionViewDelegateFlowLayout {
+extension StickyHeaderViewController2: UICollectionViewDelegateFlowLayout {
     
     //MARK:- Collection View Delegate
     
@@ -260,7 +260,7 @@ extension ContainerViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ContainerViewController: UIPageViewControllerDataSource {
+extension StickyHeaderViewController2: UIPageViewControllerDataSource {
     
     //MARK:- Delegate Method to give the next and previous View Controllers to the Page View Controller
     
@@ -293,7 +293,7 @@ extension ContainerViewController: UIPageViewControllerDataSource {
     }
 }
 
-extension ContainerViewController: UIPageViewControllerDelegate {
+extension StickyHeaderViewController2: UIPageViewControllerDelegate {
     
     //MARK:- Delegate Method to tell Inner View Controller movement inside Page View Controller
     //Capture it and change the selection bar position in collection View
@@ -315,7 +315,7 @@ extension ContainerViewController: UIPageViewControllerDelegate {
     }
 }
 
-extension ContainerViewController: InnerTableViewScrollDelegate {
+extension StickyHeaderViewController2: InnerTableViewScrollDelegate {
     
     var currentHeaderHeight: CGFloat {
         
