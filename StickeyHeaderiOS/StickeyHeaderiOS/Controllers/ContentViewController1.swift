@@ -53,8 +53,8 @@ class ContentViewController1: UIViewController {
     
     func setupTableView() {
         
-        tableView.register(UINib(nibName: ProfileTableViewCellID, bundle: nil),
-                           forCellReuseIdentifier: ProfileTableViewCellID)
+        tableView.register(UINib(nibName: TabTableViewCellID, bundle: nil),
+                           forCellReuseIdentifier: TabTableViewCellID)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.estimatedRowHeight = 44
@@ -73,7 +73,7 @@ extension ContentViewController1: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCellID) as? ProfileTableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: TabTableViewCellID) as? TabTableViewCell {
             
             cell.cellLabel.text = "This is cell \(indexPath.row + 1)"
             return cell

@@ -88,7 +88,7 @@ class StickyHeaderViewController2: UIViewController {
         
         for subTabCount in 0..<tabsCount {
             
-            let tabContentVC = ContentViewController2()
+            let tabContentVC = ContentViewController1()
             tabContentVC.innerTableViewScrollDelegate = self
             tabContentVC.numberOfCells = 30 // (subTabCount + 1) * 10
             

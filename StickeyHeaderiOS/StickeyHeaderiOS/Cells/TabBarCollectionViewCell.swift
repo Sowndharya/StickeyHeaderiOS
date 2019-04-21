@@ -1,6 +1,6 @@
 //
 //  tabBarCollectionViewCell.swift
-//  ProfilePageSampleProject
+//  StickeyHeaderiOS
 //
 //  Created by Sowndharya M on 06/01/18.
 //  Copyright © 2018 Sowndharya M. All rights reserved.
