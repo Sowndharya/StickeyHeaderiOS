@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,8 +9,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StickyHeaderViewController2" customModule="StickeyHeaderiOS" customModuleProvider="target">
             <connections>
                 <outlet property="bottomView" destination="2hP-Fg-e1h" id="YQj-fn-fDa"/>
-                <outlet property="headerView" destination="VYf-Uw-Pqd" id="56J-gb-5T2"/>
                 <outlet property="headerViewHeightConstraint" destination="oHm-HQ-ar7" id="IeA-O8-mx3"/>
+                <outlet property="stickyHeaderView" destination="VYf-Uw-Pqd" id="56J-gb-5T2"/>
                 <outlet property="tabBarCollectionView" destination="TNk-Xr-wro" id="tc6-9Y-fRx"/>
                 <outlet property="view" destination="W85-c4-YKA" id="44O-jZ-qQT"/>
             </connections>

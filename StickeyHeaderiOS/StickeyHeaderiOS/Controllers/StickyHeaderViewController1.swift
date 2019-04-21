@@ -10,30 +10,26 @@ import UIKit
 
 class StickyHeaderViewController1: UIViewController {
     
-    let offset_HeaderStop:CGFloat = 200 - 64  // At this offset the Header stops its transformations
-    
     //MARK:- Outlets
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var stickyHeaderView: UIView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-    //MARK:- View Properties
+    //MARK:- Data Source
     
-    var headerView = UIView()
-    
-    //MARK:- Stored Properties
-    
-    var numberOfSections = 1
     var numberOfCells = 50
     
-    var headerHeight: CGFloat = 100
+    //MARK: View Life Cycle
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         setupTableView()
     }
+    
+    //MARK: View Setup
     
     func setupTableView() {
         
@@ -49,6 +45,7 @@ class StickyHeaderViewController1: UIViewController {
                                               right: 0)
     }
     
+    //MARK:- Action Methods
     
     @IBAction func onClickCloseButton(_ sender: UIButton) {
         
@@ -59,11 +56,6 @@ class StickyHeaderViewController1: UIViewController {
 //MARK:- Table View Data Source
 
 extension StickyHeaderViewController1: UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return numberOfSections
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -86,42 +78,46 @@ extension StickyHeaderViewController1: UITableViewDataSource {
 
 extension StickyHeaderViewController1: UITableViewDelegate {
     
-    // MARK: Scroll view delegate
+    //MARK:- Sticky Header Effect
+    
+    static let offset_HeaderStop: CGFloat = 200 - 64  // At this offset the Header stops its transformations (Header height - Approx Nav Bar Height)
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        let offset = scrollView.contentOffset.y + stickyHeaderView.bounds.height + segmentedControl.bounds.height
+        let totalOffset = scrollView.contentOffset.y + stickyHeaderView.bounds.height + segmentedControl.bounds.height
         
-        var headerTransform = CATransform3DIdentity
-        var segmentTransform = CATransform3DIdentity
+        var headerTransform = CATransform3DIdentity // Both Scale and Translate.
+        var segmentTransform = CATransform3DIdentity // Translate only.
         
-        if offset < 0 {
+        if totalOffset < 0 {
             
-            // PULL DOWN -----------------
+            /*
+             * Table is pulled down below the header.
+             * Animation to transform.
+             */
             
-            let headerScaleFactor:CGFloat = -(offset) / stickyHeaderView.bounds.height
+            let headerScaleFactor:CGFloat = -(totalOffset) / stickyHeaderView.bounds.height
             let headerSizevariation = ((stickyHeaderView.bounds.height * (1.0 + headerScaleFactor)) - stickyHeaderView.bounds.height)/2
             headerTransform = CATransform3DTranslate(headerTransform, 0, headerSizevariation, 0)
             headerTransform = CATransform3DScale(headerTransform, 1.0 + headerScaleFactor, 1.0 + headerScaleFactor, 0)
             
         } else {
             
-            // SCROLL UP/DOWN ------------
+            /*
+             * Table scrolled up or down.
+             */
             
-            headerTransform = CATransform3DTranslate(headerTransform, 0, max(-offset_HeaderStop, -offset), 0)
+            headerTransform = CATransform3DTranslate(headerTransform, 0, max(-StickyHeaderViewController1.offset_HeaderStop, -totalOffset), 0)
         }
-        
-        // Apply Transformations
         
         stickyHeaderView.layer.transform = headerTransform
         
-        // Segment control
+        /*
+         *  Scroll the segment view until its offset reaches the same offset at which the header stopped shrinking.
+         */
         
-        let segmentViewOffset = -offset
-        
-        // Scroll the segment view until its offset reaches the same offset at which the header stopped shrinking
-        segmentTransform = CATransform3DTranslate(segmentTransform, 0, max(segmentViewOffset, -offset_HeaderStop), 0)
-        
+        let segmentViewOffset = -totalOffset
+        segmentTransform = CATransform3DTranslate(segmentTransform, 0, max(segmentViewOffset, -StickyHeaderViewController1.offset_HeaderStop), 0)
         segmentedControl.layer.transform = segmentTransform
     }
 }

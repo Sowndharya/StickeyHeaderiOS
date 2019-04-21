@@ -99,12 +99,12 @@ extension ContentViewController1: UITableViewDelegate {
              *  Re-size (Shrink) the top view only when the conditions meet:-
              *  1. The current offset of the table view should be greater than the previous offset indicating an upward scroll.
              *  2. The top view's height should be within its minimum height.
-             *  3. There are cases when you can keep on draggin the table view up even after the bottom most cell has been reached.. Make sure you are not dragging the top view up once we do such a drag and scroll upwards.
+             *  3. Optional - Collapse the header view only when the table view's edge is below the above view - This case will occur if you are using Step 2 of the next condition and have a refresh control in the table view.
              */
             
-            if delta > 0
-                && topViewUnwrappedHeight > topViewHeightConstraintRange.lowerBound
-                && scrollView.contentOffset.y > 0 {
+            if delta > 0,
+                topViewUnwrappedHeight > topViewHeightConstraintRange.lowerBound,
+                scrollView.contentOffset.y > 0 {
                 
                 dragDirection = .Up
                 innerTableViewScrollDelegate?.innerTableViewDidScroll(withDistance: delta)
@@ -114,13 +114,13 @@ extension ContentViewController1: UITableViewDelegate {
             /**
              *  Re-size (Expand) the top view only when the conditions meet:-
              *  1. The current offset of the table view should be lesser than the previous offset indicating an downward scroll.
-             *  2. The top view's height should be within its maximum height.
-             *  3. There are cases when you can keep on draggin the table view up even after the top most cell has been reached.. Make sure you are not dragging the top view up once we do such a drag and scroll upwards.
+             *  2. Optional - The top view's height should be within its maximum height. Skipping this step will give a bouncy effect. Note that you need to write extra code in the outer view controller to bring back the view to the maximum possible height.
+             *  3. Expand the header view only when the table view's edge is below the header view, else the table view should first scroll till it's offset is 0 and only then the header should expand.
              */
             
-            if delta < 0
-                // && topViewUnwrappedHeight < topViewHeightConstraintRange.upperBound
-                && scrollView.contentOffset.y < 0 {
+            if delta < 0,
+                // topViewUnwrappedHeight < topViewHeightConstraintRange.upperBound,
+                scrollView.contentOffset.y < 0 {
                 
                 dragDirection = .Down
                 innerTableViewScrollDelegate?.innerTableViewDidScroll(withDistance: delta)
@@ -133,7 +133,7 @@ extension ContentViewController1: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
-        //You should not bring the view down until the table view has scrolled to it's top most cell.
+        //You should not bring the view down until the table view has scrolled down to it's top most cell.
         
         if scrollView.contentOffset.y <= 0 {
             
@@ -143,7 +143,7 @@ extension ContentViewController1: UITableViewDelegate {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
-        //You should not bring the view down until the table view has scrolled to it's top most cell.
+        //You should not bring the view down until the table view has scrolled down to it's top most cell.
         
         if decelerate == false && scrollView.contentOffset.y <= 0 {
             

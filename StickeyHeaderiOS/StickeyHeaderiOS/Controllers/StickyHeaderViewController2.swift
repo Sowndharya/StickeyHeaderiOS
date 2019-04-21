@@ -22,7 +22,7 @@ class StickyHeaderViewController2: UIViewController {
     
     //MARK:- Outlets
     
-    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var stickyHeaderView: UIView!
     @IBOutlet weak var tabBarCollectionView: UICollectionView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
@@ -127,8 +127,8 @@ class StickyHeaderViewController2: UIViewController {
         
         let topViewPanGesture = UIPanGestureRecognizer(target: self, action: #selector(topViewMoved))
         
-        headerView.isUserInteractionEnabled = true
-        headerView.addGestureRecognizer(topViewPanGesture)
+        stickyHeaderView.isUserInteractionEnabled = true
+        stickyHeaderView.addGestureRecognizer(topViewPanGesture)
         
         /* Adding pan gesture to collection view is overriding the collection view scroll.
          
@@ -139,6 +139,8 @@ class StickyHeaderViewController2: UIViewController {
          
         */
     }
+    
+    //MARK:- Action Methods
     
     @IBAction func onClickCloseButton(_ sender: UIButton) {
         
@@ -177,7 +179,7 @@ class StickyHeaderViewController2: UIViewController {
         }
     }
     
-    //MARK:- View Action Methods
+    //MARK:- UI Laying Out Methods
     
     func setBottomPagingView(toPageWithAtIndex index: Int, andNavigationDirection navigationDirection: UIPageViewController.NavigationDirection) {
         
@@ -200,9 +202,9 @@ class StickyHeaderViewController2: UIViewController {
     }
 }
 
+//MARK:- Collection View Data Source
+
 extension StickyHeaderViewController2: UICollectionViewDataSource {
-    
-    //MARK:- Collection View Data Source
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -221,9 +223,9 @@ extension StickyHeaderViewController2: UICollectionViewDataSource {
     }
 }
 
+//MARK:- Collection View Delegate
+
 extension StickyHeaderViewController2: UICollectionViewDelegateFlowLayout {
-    
-    //MARK:- Collection View Delegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -260,9 +262,9 @@ extension StickyHeaderViewController2: UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK:- Delegate Method to give the next and previous View Controllers to the Page View Controller
+
 extension StickyHeaderViewController2: UIPageViewControllerDataSource {
-    
-    //MARK:- Delegate Method to give the next and previous View Controllers to the Page View Controller
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
@@ -293,10 +295,10 @@ extension StickyHeaderViewController2: UIPageViewControllerDataSource {
     }
 }
 
+//MARK:- Delegate Method to tell Inner View Controller movement inside Page View Controller
+//Capture it and change the selection bar position in collection View
+
 extension StickyHeaderViewController2: UIPageViewControllerDelegate {
-    
-    //MARK:- Delegate Method to tell Inner View Controller movement inside Page View Controller
-    //Capture it and change the selection bar position in collection View
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
@@ -314,6 +316,8 @@ extension StickyHeaderViewController2: UIPageViewControllerDelegate {
                                           animated: true)
     }
 }
+
+//MARK:- Sticky Header Effect
 
 extension StickyHeaderViewController2: InnerTableViewScrollDelegate {
     
@@ -374,7 +378,7 @@ extension StickyHeaderViewController2: InnerTableViewScrollDelegate {
     
     func scrollToInitialView() {
         
-        let topViewCurrentHeight = headerView.frame.height
+        let topViewCurrentHeight = stickyHeaderView.frame.height
         
         let distanceToBeMoved = abs(topViewCurrentHeight - topViewInitialHeight)
         
@@ -395,7 +399,7 @@ extension StickyHeaderViewController2: InnerTableViewScrollDelegate {
     
     func scrollToFinalView() {
         
-        let topViewCurrentHeight = headerView.frame.height
+        let topViewCurrentHeight = stickyHeaderView.frame.height
         
         let distanceToBeMoved = abs(topViewCurrentHeight - topViewFinalHeight)
         
